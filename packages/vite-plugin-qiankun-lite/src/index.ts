@@ -61,7 +61,7 @@ export default function viteQiankun(opts: Options): PluginOption {
                                         );
                                     } else {
                                         // 通用处理其他内联模块脚本（如 vite-plugin-checker 等）
-                                        inlineModuleScriptToGeneralScript(moduleScript$);
+                                        inlineModuleScriptToGeneralScript(moduleScript$, publicPath);
                                     }
                                 });
                                 htmlStr = $.html();
@@ -229,16 +229,53 @@ function reactRefreshModuleScriptToGeneralScript(script$: Cheerio<Element>, reac
 }
 
 /**
- * 将内联模块脚本转换为普通脚本（使用 Blob URL 动态执行）
+ * 将内联模块脚本转换为动态 import 形式
+ * 使用 __QIANKUN_WINDOW__["app"].__INJECTED_PUBLIC_PATH_BY_QIANKUN__ 获取 base URL
  */
-function inlineModuleScriptToGeneralScript(script$: Cheerio<Element>) {
+function inlineModuleScriptToGeneralScript(script$: Cheerio<Element>, publicPath: string) {
     const code = script$.text();
     if (!code.trim()) return;
-    script$
-        .removeAttr("type")
-        .html(
-            `(function(){var b=new Blob([${JSON.stringify(
-                code
-            )}],{type:'application/javascript'});var u=URL.createObjectURL(b);import(u).finally(function(){URL.revokeObjectURL(u)})})();`
-        );
+
+    // 解析所有 import 语句，转换为动态 import
+    // 匹配: import { xxx } from "path" 或 import "path"
+    const importRegex = /import\s+(?:([\w*{}\s,]+)\s+from\s+)?(['"])([^'"]+)\2\s*;?/g;
+    const imports: { full: string; names: string | undefined; path: string }[] = [];
+    let restCode = code;
+
+    let match: RegExpExecArray | null;
+    while ((match = importRegex.exec(code)) !== null) {
+        imports.push({
+            full: match[0],
+            names: match[1]?.trim(),
+            path: match[3],
+        });
+        restCode = restCode.replace(match[0], "");
+    }
+
+    if (imports.length === 0) {
+        script$.removeAttr("type");
+        return;
+    }
+
+    // 生成动态 import 代码
+    const dynamicImports = imports
+        .map(({ names, path }) => {
+            // 移除 */ 前缀，并确保路径以 / 开头
+            const normalizedPath = "/" + path.replace(/^\*\//, "");
+            if (names) {
+                // import { inject } from "path" -> const { inject } = await import(base + "/path")
+                return `const ${names} = await import(base + "${normalizedPath}");`;
+            }
+            // import "path" -> await import(base + "/path")
+            return `await import(base + "${normalizedPath}");`;
+        })
+        .join("\n    ");
+
+    script$.removeAttr("type").html(`
+(async function() {
+    var base = ${publicPath};
+    ${dynamicImports}
+    ${restCode.trim()}
+})();
+`);
 }
