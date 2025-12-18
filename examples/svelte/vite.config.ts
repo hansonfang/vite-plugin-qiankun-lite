@@ -1,6 +1,6 @@
+import qiankun from "@hansonfang/vite-plugin-qiankun-lite";
 import { svelte } from "@sveltejs/vite-plugin-svelte";
 import { defineConfig } from "vite";
-import qiankun from "@hansonfang/vite-plugin-qiankun-lite";
 import { name } from "./package.json";
 
 // https://vitejs.dev/config/
