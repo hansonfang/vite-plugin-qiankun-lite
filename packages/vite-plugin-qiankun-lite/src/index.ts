@@ -55,15 +55,16 @@ export default function viteQiankun(opts: Options): PluginOption {
                 const moduleScripts$ = $("script:not([src])[type=module]");
                 moduleScripts$.each((_, moduleScript) => {
                   const moduleScript$ = $(moduleScript);
-                  if (
-                    moduleScript$
-                      .text()
-                      .includes(`${config.base}@react-refresh`)
-                  ) {
+                  const scriptContent = moduleScript$.text();
+                  if (scriptContent.includes(`${config.base}@react-refresh`)) {
+                    // 特殊处理 react-refresh，需要注入到 global hook
                     reactRefreshModuleScriptToGeneralScript(
                       moduleScript$,
                       `${publicPath} + "${config.base}@react-refresh"`,
                     );
+                  } else {
+                    // 通用处理其他内联模块脚本（如 vite-plugin-checker 等）
+                    inlineModuleScriptToGeneralScript(moduleScript$);
                   }
                 });
                 htmlStr = $.html();
@@ -255,4 +256,15 @@ function reactRefreshModuleScriptToGeneralScript(
       })(new Function("return this")());
   `);
   return script$;
+}
+
+/**
+ * 将内联模块脚本转换为普通脚本（使用 Blob URL 动态执行）
+ */
+function inlineModuleScriptToGeneralScript(script$: Cheerio<Element>) {
+  const code = script$.text();
+  if (!code.trim()) return;
+  script$.removeAttr("type").html(
+    `(function(){var b=new Blob([${JSON.stringify(code)}],{type:'application/javascript'});var u=URL.createObjectURL(b);import(u).finally(function(){URL.revokeObjectURL(u)})})();`,
+  );
 }
