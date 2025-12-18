@@ -1,18 +1,18 @@
 {
-  "name": "vite-plugin-qiankun-lite",
+  "name": "@hansonfang/vite-plugin-qiankun-lite",
   "author": {
-    "name": "Kotaro Sugawara",
-    "email": "kotarella1110@gmail.com"
+    "name": "Hansonfang",
+    "email": "fang1597700958@gmail.com"
   },
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kotarella1110/vite-plugin-qiankun-lite.git"
+    "url": "git+https://github.com/hansonfang/vite-plugin-qiankun-lite"
   },
   "bugs": {
-    "url": "https://github.com/kotarella1110/vite-plugin-qiankun-lite/issues"
+    "url": "https://github.com/hansonfang/vite-plugin-qiankun-lite/issues"
   },
-  "homepage": "https://github.com/kotarella1110/vite-plugin-qiankun-lite#readme",
+  "homepage": "https://github.com/hansonfang/vite-plugin-qiankun-lite#readme",
   "engines": {
     "pnpm": ">=8"
   },

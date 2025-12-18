@@ -2,6 +2,23 @@
 
 A simple Vite plugin for efficiently running MicroFrontend applications using [qiankun](https://github.com/umijs/qiankun).
 
+## 📢 关于此 Fork / About This Fork
+
+本项目 fork 自 [kotarella1110/vite-plugin-qiankun-lite](https://github.com/kotarella1110/vite-plugin-qiankun-lite)。原项目是一个优秀的 Vite + qiankun 集成方案，但目前似乎已停止维护。
+
+This project is forked from [kotarella1110/vite-plugin-qiankun-lite](https://github.com/kotarella1110/vite-plugin-qiankun-lite). While the original project provided an excellent integration solution for Vite and qiankun, it appears to be no longer actively maintained.
+
+### Purpose
+
+- **🔧 Bug Fixes**: Fix compatibility issues with other Vite plugins (e.g., vite-plugin-checker)
+- **🚀 Continuous Maintenance**: Keep compatibility with the latest versions of Vite and qiankun
+- **📦 Feature Enhancement**: Add new features and improvements based on community feedback
+- **📝 Documentation**: Provide more detailed documentation and use cases
+
+### Acknowledgments
+
+Special thanks to [@kotarella1110](https://github.com/kotarella1110) for creating this excellent project and providing an elegant solution for Vite and qiankun integration. This fork aims to continue improving and maintaining the project based on the original foundation.
+
 ## Features
 
 - Offers the simplest method for integrating qiankun with Vite.
