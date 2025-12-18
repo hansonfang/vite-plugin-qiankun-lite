@@ -3,30 +3,30 @@ name: CI
 on: [push]
 
 jobs:
-  static:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: ./.github/composite-actions/setup-pnpm
-      - run: pnpm check
-      - run: pnpm build
-  unit-test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: ./.github/composite-actions/setup-pnpm
-      - run: pnpm test
-  e2e-test:
-    name: "e2e-test (sandbox: ${{ matrix.sandbox }})"
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        sandbox: [true, false]
-        vite-version: [^5, ^6, ^7]
-    steps:
-      - uses: actions/checkout@v4
-      - uses: ./.github/composite-actions/setup-pnpm
-      - if: matrix.sandbox == true
-        run: echo 'VITE_SANDBOX=true' >> $GITHUB_ENV
-      - run: pnpm --filter vite-plugin-qiankun-lite build
-      - run: pnpm e2e
+    static:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - uses: ./.github/composite-actions/setup-pnpm
+            - run: pnpm check
+            - run: pnpm build
+    unit-test:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - uses: ./.github/composite-actions/setup-pnpm
+            - run: pnpm test
+    e2e-test:
+        name: "e2e-test (sandbox: ${{ matrix.sandbox }})"
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                sandbox: [true, false]
+                vite-version: [^5, ^6, ^7]
+        steps:
+            - uses: actions/checkout@v4
+            - uses: ./.github/composite-actions/setup-pnpm
+            - if: matrix.sandbox == true
+              run: echo 'VITE_SANDBOX=true' >> $GITHUB_ENV
+            - run: pnpm --filter @hansonfang/vite-plugin-qiankun-lite build
+            - run: pnpm e2e
