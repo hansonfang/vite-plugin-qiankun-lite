@@ -30,7 +30,7 @@ Special thanks to [@kotarella1110](https://github.com/kotarella1110) for creatin
 ## Installation
 
 ```bash
-npm install -D vite-plugin-qiankun-lite
+npm i @hansonfang/vite-plugin-qiankun-lite -D
 ```
 
 ## Getting Started
