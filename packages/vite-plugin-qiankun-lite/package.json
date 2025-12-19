@@ -1,6 +1,6 @@
 {
   "name": "@hansonfang/vite-plugin-qiankun-lite",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "A simple Vite plugin for efficiently running MicroFrontend applications using qiankun",
   "author": {
     "name": "Hansonfang",

@@ -1,5 +1,11 @@
 # vite-plugin-qiankun-lite
 
+## 1.0.0
+
+### Major Changes
+
+- [`251e1eb`](https://github.com/kotarella1110/vite-plugin-qiankun-lite/commit/251e1eb4f7ffdd7cea1d11ca04555f0806179598) Thanks [@hansonfang](https://github.com/hansonfang)! - 修复拼接路径问题
+
 ## 1.3.0
 
 ### Minor Changes
